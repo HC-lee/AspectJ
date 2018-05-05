@@ -45,7 +45,6 @@ public class Person implements Serializable {
     }
     @CalculateTime(value = "1", type =1)
     public Person() {
-
         SystemClock.sleep(1500);
     }
 }

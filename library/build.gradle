@@ -6,10 +6,13 @@ import org.aspectj.bridge.MessageHandler
 import org.aspectj.tools.ajc.Main
 
 
+
 android {
     compileSdkVersion 27
-
-
+    buildToolsVersion '27.0.3'
+    lintOptions {
+        abortOnError false
+    }
 
     defaultConfig {
         minSdkVersion 15
@@ -20,24 +23,14 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
-
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'org.aspectj:aspectjrt:1.8.9'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-}
 
 android.libraryVariants.all { variant ->
     LibraryPlugin plugin = project.plugins.getPlugin(LibraryPlugin)
@@ -73,4 +66,13 @@ android.libraryVariants.all { variant ->
             }
         }
     }
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation 'org.aspectj:aspectjrt:1.8.9'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
-import com.supcoder.library.Hold;
 import com.supcoder.library.annotation.CalculateTime;
 
 /**
@@ -31,9 +30,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        Hold hold = new Hold();
-        hold.testTime();
-
         switch (view.getId()) {
             case R.id.button2:
                 aopTest();
