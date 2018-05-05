@@ -8,6 +8,8 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.CodeSignature;
+import org.aspectj.lang.reflect.ConstructorSignature;
 import org.aspectj.lang.reflect.MethodSignature;
 
 import java.util.concurrent.TimeUnit;
@@ -26,15 +28,23 @@ public class MethodAspect {
     public void withinAnnotatedClass() {
     }
 
-    @Around("withinAnnotatedClass")
+    @Around("withinAnnotatedClass()")
     public Object logAndExecute(ProceedingJoinPoint joinPoint) throws Throwable {
-        MethodSignature methodSignature = (MethodSignature) joinPoint.getSignature();
+        CodeSignature methodSignature = null;
+        if (joinPoint.getSignature() instanceof MethodSignature){
+            methodSignature = (MethodSignature) joinPoint.getSignature();
+            CalculateTime behaviorTrace = ((MethodSignature)methodSignature).getMethod().getAnnotation(CalculateTime.class);
+            String contentType = behaviorTrace.value();
+            int type = behaviorTrace.type();
+        }
+        else if (joinPoint.getSignature() instanceof ConstructorSignature){
+            methodSignature = (MethodSignature) joinPoint.getSignature();
+        }
+
         String className = methodSignature.getDeclaringType().getSimpleName();
         String methodName = methodSignature.getName();
 
-        CalculateTime behaviorTrace = methodSignature.getMethod().getAnnotation(CalculateTime.class);
-        String contentType = behaviorTrace.value();
-        int type = behaviorTrace.type();
+
 
         long startNanos = System.nanoTime();
         Object result = joinPoint.proceed();
